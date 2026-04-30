@@ -1,6 +1,26 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 export default function Home() {
+  const sections = useRef<any[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0px)";
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    sections.current.forEach((el) => el && observer.observe(el));
+  }, []);
+
   return (
     <main style={styles.page}>
 
@@ -8,7 +28,7 @@ export default function Home() {
       <img src="/nova.png" style={styles.floatingRobot} />
 
       {/* HERO */}
-      <section style={{ ...styles.hero, ...styles.fadeIn }}>
+      <section style={styles.hero}>
         <div style={styles.left}>
           <p style={styles.update}>NEW UPDATE — v6+ LIVE</p>
 
@@ -17,7 +37,7 @@ export default function Home() {
           </h1>
 
           <p style={styles.subtitle}>
-            Advanced automated trading system built for precision and consistency.
+            AI-powered automated trading built for precision and consistency.
           </p>
 
           <p style={styles.stars}>★★★★★ Trusted by 3500+ traders</p>
@@ -40,7 +60,10 @@ export default function Home() {
       </section>
 
       {/* FEATURES */}
-      <section style={{ ...styles.section, ...styles.fadeIn }}>
+      <section
+        ref={(el) => (sections.current[0] = el)}
+        style={styles.reveal}
+      >
         <h2 style={styles.heading}>Why Traders Choose v6+</h2>
 
         <div style={styles.grid}>
@@ -52,7 +75,11 @@ export default function Home() {
       </section>
 
       {/* ACCESS */}
-      <section id="access" style={{ ...styles.section, ...styles.fadeIn }}>
+      <section
+        id="access"
+        ref={(el) => (sections.current[1] = el)}
+        style={styles.reveal}
+      >
         <h2 style={styles.heading}>Choose Your Access</h2>
 
         <div style={styles.grid}>
@@ -77,7 +104,10 @@ export default function Home() {
       </footer>
 
       {/* LIVE SUPPORT */}
-      <a href="https://wa.me/27616260886" style={styles.chat}>
+      <a
+        href="https://wa.me/27616260886"
+        style={styles.chat}
+      >
         Live Support 💬
       </a>
 
@@ -95,8 +125,8 @@ const styles: any = {
   hero: {
     display: "flex",
     flexWrap: "wrap",
-    alignItems: "center",
     justifyContent: "space-between",
+    alignItems: "center",
     maxWidth: "1100px",
     margin: "0 auto",
     padding: "100px 20px",
@@ -109,7 +139,7 @@ const styles: any = {
   heroImage: {
     width: "260px",
     borderRadius: "20px",
-    animation: "float 4s ease-in-out infinite",
+    transition: "0.4s",
   },
 
   glow: {
@@ -153,7 +183,7 @@ const styles: any = {
     padding: "12px",
     borderRadius: "8px",
     textDecoration: "none",
-    animation: "pulse 2s infinite",
+    transition: "0.3s",
   },
 
   ctaSecondary: {
@@ -163,14 +193,6 @@ const styles: any = {
     color: "red",
     textDecoration: "none",
   },
-
-  section: {
-    textAlign: "center",
-    marginTop: "80px",
-    padding: "0 20px",
-  },
-
-  heading: { fontSize: "28px" },
 
   grid: {
     display: "flex",
@@ -212,7 +234,11 @@ const styles: any = {
     boxShadow: "0 0 15px lime",
   },
 
-  fadeIn: {
-    animation: "fadeIn 1s ease-in",
+  reveal: {
+    opacity: 0,
+    transform: "translateY(40px)",
+    transition: "all 0.8s ease",
+    textAlign: "center",
+    marginTop: "80px",
   },
 };
