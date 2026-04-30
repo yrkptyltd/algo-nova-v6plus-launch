@@ -4,11 +4,11 @@ export default function Home() {
   return (
     <main style={styles.page}>
 
-      {/* FLOATING BRAND ICON */}
+      {/* FLOAT ROBOT */}
       <img src="/nova.png" style={styles.floatingRobot} />
 
       {/* HERO */}
-      <section style={styles.hero}>
+      <section style={{ ...styles.hero, ...styles.fadeIn }}>
         <div style={styles.left}>
           <p style={styles.update}>NEW UPDATE — v6+ LIVE</p>
 
@@ -17,12 +17,10 @@ export default function Home() {
           </h1>
 
           <p style={styles.subtitle}>
-            Advanced automated trading system built for precision, discipline and consistency.
+            Advanced automated trading system built for precision and consistency.
           </p>
 
           <p style={styles.stars}>★★★★★ Trusted by 3500+ traders</p>
-
-          <p style={styles.slogan}>#v6powerrr ⚡</p>
 
           <div style={styles.ctaRow}>
             <a href="#access" style={styles.ctaPrimary}>
@@ -42,7 +40,7 @@ export default function Home() {
       </section>
 
       {/* FEATURES */}
-      <section style={styles.section}>
+      <section style={{ ...styles.section, ...styles.fadeIn }}>
         <h2 style={styles.heading}>Why Traders Choose v6+</h2>
 
         <div style={styles.grid}>
@@ -53,22 +51,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TRUST */}
-      <section style={styles.section}>
-        <h2 style={styles.heading}>Built for Real Markets</h2>
-
-        <p style={styles.text}>
-          Developed from real trading experience across previous Algo Nova versions.
-          Focused on structure, risk awareness and consistent execution.
-        </p>
-
-        <p style={styles.warning}>
-          ⚠️ Trading is risky. No system is 100% accurate. Always manage risk properly.
-        </p>
-      </section>
-
       {/* ACCESS */}
-      <section id="access" style={styles.section}>
+      <section id="access" style={{ ...styles.section, ...styles.fadeIn }}>
         <h2 style={styles.heading}>Choose Your Access</h2>
 
         <div style={styles.grid}>
@@ -86,19 +70,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SOCIALS */}
-      <section style={styles.section}>
-        <h2 style={styles.heading}>Stay Connected</h2>
-
-        <div style={styles.links}>
-          <a href="https://wa.me/27616260886">WhatsApp</a>
-          <a href="https://t.me/+5zNgRPcXgGk3NmFk">Telegram</a>
-          <a href="https://www.instagram.com/_nhlanhla_za">Founder</a>
-          <a href="https://www.instagram.com/algo_nova_ea_v6">Robot IG</a>
-          <a href="https://www.tiktok.com/@the_real_nhlanhla_za">TikTok</a>
-        </div>
-      </section>
-
       {/* FOOTER */}
       <footer style={styles.footer}>
         <p>All rights reserved since May 2025</p>
@@ -106,10 +77,7 @@ export default function Home() {
       </footer>
 
       {/* LIVE SUPPORT */}
-      <a
-        href="https://wa.me/27616260886?text=Hi I want info about Algo Nova EA v6+"
-        style={styles.chat}
-      >
+      <a href="https://wa.me/27616260886" style={styles.chat}>
         Live Support 💬
       </a>
 
@@ -117,7 +85,7 @@ export default function Home() {
   );
 }
 
-const styles = {
+const styles: any = {
   page: {
     background: "#ffffff",
     color: "#000",
@@ -141,8 +109,7 @@ const styles = {
   heroImage: {
     width: "260px",
     borderRadius: "20px",
-    position: "relative",
-    zIndex: 2,
+    animation: "float 4s ease-in-out infinite",
   },
 
   glow: {
@@ -158,40 +125,21 @@ const styles = {
     top: "20px",
     right: "20px",
     width: "60px",
-    borderRadius: "12px",
-    boxShadow: "0 0 15px red",
-    opacity: 0.9,
+    animation: "float 5s infinite",
   },
 
   title: {
     fontSize: "44px",
     fontWeight: 900,
-    marginBottom: "10px",
   },
 
   red: { color: "red" },
 
-  subtitle: {
-    opacity: 0.7,
-    maxWidth: "500px",
-  },
+  subtitle: { opacity: 0.7 },
 
-  stars: {
-    color: "gold",
-    marginTop: "10px",
-  },
+  stars: { color: "gold" },
 
-  slogan: {
-    marginTop: "10px",
-    color: "red",
-    fontWeight: "bold",
-  },
-
-  update: {
-    color: "red",
-    fontWeight: "bold",
-    marginBottom: "10px",
-  },
+  update: { color: "red", fontWeight: "bold" },
 
   ctaRow: {
     display: "flex",
@@ -202,17 +150,18 @@ const styles = {
   ctaPrimary: {
     background: "red",
     color: "white",
-    padding: "12px 18px",
+    padding: "12px",
     borderRadius: "8px",
     textDecoration: "none",
+    animation: "pulse 2s infinite",
   },
 
   ctaSecondary: {
     border: "1px solid red",
-    padding: "12px 18px",
+    padding: "12px",
     borderRadius: "8px",
-    textDecoration: "none",
     color: "red",
+    textDecoration: "none",
   },
 
   section: {
@@ -221,10 +170,7 @@ const styles = {
     padding: "0 20px",
   },
 
-  heading: {
-    fontSize: "28px",
-    marginBottom: "20px",
-  },
+  heading: { fontSize: "28px" },
 
   grid: {
     display: "flex",
@@ -237,7 +183,7 @@ const styles = {
     background: "#fafafa",
     padding: "18px",
     borderRadius: "12px",
-    boxShadow: "0 0 10px rgba(255,0,0,0.1)",
+    transition: "0.3s",
   },
 
   product: {
@@ -246,24 +192,7 @@ const styles = {
     padding: "15px",
     borderRadius: "10px",
     textDecoration: "none",
-  },
-
-  links: {
-    display: "flex",
-    gap: "15px",
-    justifyContent: "center",
-    flexWrap: "wrap",
-  },
-
-  text: {
-    maxWidth: "600px",
-    margin: "0 auto",
-    opacity: 0.7,
-  },
-
-  warning: {
-    color: "red",
-    marginTop: "10px",
+    transition: "0.3s",
   },
 
   footer: {
@@ -281,5 +210,9 @@ const styles = {
     borderRadius: "50px",
     color: "white",
     boxShadow: "0 0 15px lime",
+  },
+
+  fadeIn: {
+    animation: "fadeIn 1s ease-in",
   },
 };
