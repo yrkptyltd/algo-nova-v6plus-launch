@@ -10,16 +10,10 @@ const products = [
   { name: "PC Lifetime", price: "R3500 / $500", link: "https://payf.st/ex45h" },
 ];
 
-const notifications = [
-  "A trader just joined the priority list",
-  "Someone is viewing results",
-  "New visitor exploring v6+",
-  "A trader checking pricing",
-];
-
 export default function Home() {
   const [time, setTime] = useState(new Date());
-  const [note, setNote] = useState(notifications[0]);
+  const [viewers, setViewers] = useState(23);
+  const [copies, setCopies] = useState(37);
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000);
@@ -27,10 +21,11 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const n = setInterval(() => {
-      setNote(notifications[Math.floor(Math.random() * notifications.length)]);
-    }, 12000);
-    return () => clearInterval(n);
+    const interval = setInterval(() => {
+      setViewers((v) => Math.max(15, v + (Math.random() > 0.5 ? 1 : -1)));
+      setCopies((c) => Math.max(12, c - (Math.random() > 0.7 ? 1 : 0)));
+    }, 6000);
+    return () => clearInterval(interval);
   }, []);
 
   const countdown = useMemo(() => {
@@ -45,8 +40,10 @@ export default function Home() {
   return (
     <main style={styles.page}>
       
-      {/* FLOAT NOTIFICATION */}
-      <div style={styles.notification}>{note}</div>
+      {/* TOP BAR */}
+      <div style={styles.topBar}>
+        🔴 {viewers} people viewing • {copies} copies left today
+      </div>
 
       {/* HERO */}
       <section style={styles.hero}>
@@ -65,8 +62,12 @@ export default function Home() {
             {countdown.h}h : {countdown.m}m : {countdown.s}s
           </div>
 
+          <p style={styles.urgent}>
+            Limited launch access — first come first served ⚡
+          </p>
+
           <button style={styles.cta}>
-            Join Priority List 🔥
+            Secure Access Now 🔥
           </button>
         </div>
 
@@ -106,8 +107,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ACCURACY BLOCK */}
-      <section style={styles.accuracy}>
+      {/* AUTHORITY BLOCK */}
+      <section style={styles.authority}>
         <h2>98% Accuracy ⚡</h2>
         <p>Clean entries. Smart direction detection. Built for results.</p>
       </section>
@@ -152,6 +153,14 @@ const styles: any = {
     fontFamily: "Inter, sans-serif",
   },
 
+  topBar: {
+    textAlign: "center",
+    padding: "10px",
+    background: "#111",
+    color: "red",
+    fontWeight: "bold",
+  },
+
   hero: {
     display: "flex",
     flexWrap: "wrap",
@@ -183,7 +192,7 @@ const styles: any = {
     filter: "blur(120px)",
   },
 
-  tag: { color: "red", fontSize: "12px" },
+  tag: { color: "red" },
 
   title: { fontSize: "48px", fontWeight: 900 },
 
@@ -191,7 +200,9 @@ const styles: any = {
 
   subtitle: { opacity: 0.7 },
 
-  timer: { fontSize: "24px", margin: "10px 0" },
+  timer: { fontSize: "24px" },
+
+  urgent: { color: "red" },
 
   cta: {
     background: "linear-gradient(45deg, red, darkred)",
@@ -200,7 +211,6 @@ const styles: any = {
     border: "none",
     color: "white",
     cursor: "pointer",
-    boxShadow: "0 0 20px red",
   },
 
   section: {
@@ -221,7 +231,6 @@ const styles: any = {
     background: "rgba(255,255,255,0.05)",
     padding: "25px",
     borderRadius: "16px",
-    backdropFilter: "blur(10px)",
   },
 
   price: { fontSize: "22px", fontWeight: 800 },
@@ -241,10 +250,9 @@ const styles: any = {
     borderRadius: "10px",
   },
 
-  accuracy: {
+  authority: {
     textAlign: "center",
     marginTop: "80px",
-    fontSize: "22px",
     color: "red",
   },
 
@@ -261,16 +269,6 @@ const styles: any = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-
-  notification: {
-    position: "fixed",
-    top: "15px",
-    left: "50%",
-    transform: "translateX(-50%)",
-    background: "#111",
-    padding: "10px",
-    borderRadius: "20px",
   },
 
   quick: {
