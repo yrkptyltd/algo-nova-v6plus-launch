@@ -10,10 +10,19 @@ const products = [
   { name: "PC Lifetime", price: "R3500 / $500", link: "https://payf.st/ex45h" },
 ];
 
+const notifications = [
+  { text: "Someone just joined the priority list", flag: "🇿🇦" },
+  { text: "A trader is checking access", flag: "🇺🇸" },
+  { text: "New visitor exploring v6+", flag: "🇬🇧" },
+  { text: "Someone is viewing results", flag: "🇿🇦" },
+];
+
 export default function Home() {
   const [time, setTime] = useState(new Date());
-  const [viewers, setViewers] = useState(23);
-  const [copies, setCopies] = useState(37);
+  const [note, setNote] = useState(notifications[0]);
+  const [form, setForm] = useState({ name: "", email: "", whatsapp: "" });
+
+  const isLaunched = time >= launchDate;
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000);
@@ -21,11 +30,10 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setViewers((v) => Math.max(15, v + (Math.random() > 0.5 ? 1 : -1)));
-      setCopies((c) => Math.max(12, c - (Math.random() > 0.7 ? 1 : 0)));
-    }, 6000);
-    return () => clearInterval(interval);
+    const n = setInterval(() => {
+      setNote(notifications[Math.floor(Math.random() * notifications.length)]);
+    }, 12000);
+    return () => clearInterval(n);
   }, []);
 
   const countdown = useMemo(() => {
@@ -39,15 +47,16 @@ export default function Home() {
 
   return (
     <main style={styles.page}>
-      
-      {/* TOP BAR */}
-      <div style={styles.topBar}>
-        🔴 {viewers} people viewing • {copies} copies left today
+
+      {/* NOTIFICATION */}
+      <div style={styles.notification}>
+        {note.flag} {note.text}
       </div>
 
       {/* HERO */}
       <section style={styles.hero}>
         <div style={styles.left}>
+
           <p style={styles.tag}>PRIVATE LAUNCH</p>
 
           <h1 style={styles.title}>
@@ -58,46 +67,81 @@ export default function Home() {
             Precision automation. AI chart scanning. Built for serious traders.
           </p>
 
+          {/* ⭐ TRUST */}
+          <p style={styles.stars}>★★★★★ Trusted by 3500+ users</p>
+
+          {/* COUNTDOWN */}
           <div style={styles.timer}>
             {countdown.h}h : {countdown.m}m : {countdown.s}s
           </div>
 
+          {/* SCARCITY */}
           <p style={styles.urgent}>
-            Limited launch access — first come first served ⚡
+            Limited to 200 users — sells out fast every time 🔥
           </p>
 
-          <button style={styles.cta}>
-            Secure Access Now 🔥
-          </button>
+          {/* FORM */}
+          {!isLaunched && (
+            <div style={styles.form}>
+              <input
+                placeholder="Full Name"
+                style={styles.input}
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+
+              <input
+                placeholder="Email"
+                style={styles.input}
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
+
+              <input
+                placeholder="WhatsApp"
+                style={styles.input}
+                value={form.whatsapp}
+                onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
+              />
+
+              <button style={styles.cta}>
+                Join Priority List 🔥
+              </button>
+            </div>
+          )}
+
         </div>
 
+        {/* IMAGE */}
         <div style={styles.right}>
           <div style={styles.glow}></div>
           <img src="/nova.png" style={styles.image} />
         </div>
       </section>
 
-      {/* PRODUCTS */}
-      <section style={styles.section}>
-        <h2 style={styles.heading}>Choose Your Access</h2>
+      {/* PRODUCTS (LOCKED BEFORE LAUNCH) */}
+      {isLaunched && (
+        <section style={styles.section}>
+          <h2 style={styles.heading}>Choose Your Access</h2>
 
-        <div style={styles.grid}>
-          {products.map((p) => (
-            <div style={styles.card} key={p.name}>
-              <h3>{p.name}</h3>
-              <p style={styles.price}>{p.price}</p>
+          <div style={styles.grid}>
+            {products.map((p) => (
+              <div style={styles.card} key={p.name}>
+                <h3>{p.name}</h3>
+                <p style={styles.price}>{p.price}</p>
 
-              <a href={p.link} target="_blank" style={styles.buy}>
-                Buy Now 🔥
-              </a>
-            </div>
-          ))}
-        </div>
-      </section>
+                <a href={p.link} target="_blank" style={styles.buy}>
+                  Buy Now 🔥
+                </a>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* FEATURES */}
       <section style={styles.section}>
-        <h2 style={styles.heading}>Why Traders Are Switching</h2>
+        <h2 style={styles.heading}>Why Traders Are Waiting</h2>
 
         <div style={styles.grid}>
           <div style={styles.feature}>📊 AI Chart Scanner</div>
@@ -107,39 +151,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AUTHORITY BLOCK */}
-      <section style={styles.authority}>
-        <h2>98% Accuracy ⚡</h2>
-        <p>Clean entries. Smart direction detection. Built for results.</p>
-      </section>
-
-      {/* RESULTS */}
-      <section style={styles.section}>
-        <h2 style={styles.heading}>Real Results</h2>
-
-        <div style={styles.gallery}>
-          {[1,2,3].map(i => (
-            <div key={i} style={styles.result}>Result {i}</div>
-          ))}
-        </div>
-      </section>
-
-      {/* WHATSAPP QUICK */}
-      <div style={styles.quick}>
-        {["Broker", "Deposit", "Setup", "License"].map(q => (
-          <a
-            key={q}
-            href={`https://wa.me/27616260886?text=${q}`}
-            style={styles.quickBtn}
-          >
-            {q}
-          </a>
-        ))}
-      </div>
-
-      {/* FLOAT CHAT */}
+      {/* WHATSAPP */}
       <a href="https://wa.me/27616260886" style={styles.chat}>
-        Chat 💬
+        Chat 24/7 💬
       </a>
 
     </main>
@@ -147,19 +161,7 @@ export default function Home() {
 }
 
 const styles: any = {
-  page: {
-    background: "#050505",
-    color: "white",
-    fontFamily: "Inter, sans-serif",
-  },
-
-  topBar: {
-    textAlign: "center",
-    padding: "10px",
-    background: "#111",
-    color: "red",
-    fontWeight: "bold",
-  },
+  page: { background: "#050505", color: "white", fontFamily: "Inter, sans-serif" },
 
   hero: {
     display: "flex",
@@ -172,25 +174,11 @@ const styles: any = {
 
   left: { flex: 1 },
 
-  right: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    position: "relative",
-  },
+  right: { flex: 1, display: "flex", justifyContent: "center", position: "relative" },
 
-  image: {
-    width: "320px",
-    zIndex: 2,
-  },
+  image: { width: "320px", zIndex: 2 },
 
-  glow: {
-    position: "absolute",
-    width: "300px",
-    height: "300px",
-    background: "red",
-    filter: "blur(120px)",
-  },
+  glow: { position: "absolute", width: "300px", height: "300px", background: "red", filter: "blur(120px)" },
 
   tag: { color: "red" },
 
@@ -200,90 +188,54 @@ const styles: any = {
 
   subtitle: { opacity: 0.7 },
 
-  timer: { fontSize: "24px" },
+  stars: { color: "gold", marginTop: "10px" },
 
-  urgent: { color: "red" },
+  timer: { fontSize: "24px", marginTop: "10px" },
+
+  urgent: { color: "red", fontWeight: "bold" },
+
+  form: { display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" },
+
+  input: {
+    padding: "12px",
+    borderRadius: "10px",
+    border: "1px solid #333",
+    background: "#111",
+    color: "white",
+    outline: "none",
+  },
 
   cta: {
-    background: "linear-gradient(45deg, red, darkred)",
+    background: "red",
     padding: "14px",
-    borderRadius: "12px",
+    borderRadius: "10px",
     border: "none",
     color: "white",
-    cursor: "pointer",
+    boxShadow: "0 0 20px red",
   },
 
-  section: {
-    textAlign: "center",
-    marginTop: "80px",
-  },
+  section: { textAlign: "center", marginTop: "80px" },
 
   heading: { fontSize: "32px" },
 
-  grid: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-    flexWrap: "wrap",
-  },
+  grid: { display: "flex", justifyContent: "center", gap: "20px", flexWrap: "wrap" },
 
-  card: {
-    background: "rgba(255,255,255,0.05)",
-    padding: "25px",
-    borderRadius: "16px",
-  },
+  card: { background: "#111", padding: "20px", borderRadius: "12px" },
 
   price: { fontSize: "22px", fontWeight: 800 },
 
-  buy: {
-    display: "block",
-    background: "red",
-    padding: "10px",
-    borderRadius: "10px",
-    color: "white",
-    textDecoration: "none",
-  },
+  buy: { background: "red", padding: "10px", borderRadius: "10px", color: "white", textDecoration: "none" },
 
-  feature: {
+  feature: { background: "#111", padding: "15px", borderRadius: "10px" },
+
+  notification: {
+    position: "fixed",
+    top: "10px",
+    left: "50%",
+    transform: "translateX(-50%)",
     background: "#111",
-    padding: "15px",
-    borderRadius: "10px",
-  },
-
-  authority: {
-    textAlign: "center",
-    marginTop: "80px",
-    color: "red",
-  },
-
-  gallery: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-  },
-
-  result: {
-    width: "120px",
-    height: "120px",
-    background: "#111",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  quick: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    marginTop: "40px",
-  },
-
-  quickBtn: {
-    background: "#222",
     padding: "10px",
-    borderRadius: "10px",
-    color: "white",
-    textDecoration: "none",
+    borderRadius: "20px",
   },
 
   chat: {
@@ -294,5 +246,6 @@ const styles: any = {
     padding: "15px",
     borderRadius: "50px",
     color: "white",
+    fontWeight: "bold",
   },
 };
