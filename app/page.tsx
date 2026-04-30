@@ -12,28 +12,25 @@ const products = [
 
 const notifications = [
   "A trader just joined the priority list",
-  "Someone is checking Android access",
-  "New user exploring v6+ features",
-  "A trader opened the pricing section",
   "Someone is viewing results",
+  "New visitor exploring v6+",
+  "A trader checking pricing",
 ];
 
 export default function Home() {
   const [time, setTime] = useState(new Date());
-  const [noteIndex, setNoteIndex] = useState(0);
-
-  const isLaunched = time >= launchDate;
+  const [note, setNote] = useState(notifications[0]);
 
   useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(interval);
+    const t = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(t);
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setNoteIndex(Math.floor(Math.random() * notifications.length));
+    const n = setInterval(() => {
+      setNote(notifications[Math.floor(Math.random() * notifications.length)]);
     }, 12000);
-    return () => clearInterval(interval);
+    return () => clearInterval(n);
   }, []);
 
   const countdown = useMemo(() => {
@@ -48,10 +45,8 @@ export default function Home() {
   return (
     <main style={styles.page}>
       
-      {/* NOTIFICATION */}
-      <div style={styles.notification}>
-        {notifications[noteIndex]}
-      </div>
+      {/* FLOAT NOTIFICATION */}
+      <div style={styles.notification}>{note}</div>
 
       {/* HERO */}
       <section style={styles.hero}>
@@ -63,16 +58,12 @@ export default function Home() {
           </h1>
 
           <p style={styles.subtitle}>
-            The next evolution of automated trading. Built for dominance.
+            Precision automation. AI chart scanning. Built for serious traders.
           </p>
 
           <div style={styles.timer}>
             {countdown.h}h : {countdown.m}m : {countdown.s}s
           </div>
-
-          <p style={styles.urgent}>
-            Limited launch access — first come first served ⚡
-          </p>
 
           <button style={styles.cta}>
             Join Priority List 🔥
@@ -86,16 +77,16 @@ export default function Home() {
       </section>
 
       {/* PRODUCTS */}
-      <section style={styles.products}>
-        <h2 style={styles.sectionTitle}>Choose Your Access</h2>
+      <section style={styles.section}>
+        <h2 style={styles.heading}>Choose Your Access</h2>
 
-        <div style={styles.cardWrap}>
+        <div style={styles.grid}>
           {products.map((p) => (
             <div style={styles.card} key={p.name}>
               <h3>{p.name}</h3>
               <p style={styles.price}>{p.price}</p>
 
-              <a href={p.link} target="_blank" style={styles.buyBtn}>
+              <a href={p.link} target="_blank" style={styles.buy}>
                 Buy Now 🔥
               </a>
             </div>
@@ -105,9 +96,9 @@ export default function Home() {
 
       {/* FEATURES */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Why Traders Are Waiting</h2>
+        <h2 style={styles.heading}>Why Traders Are Switching</h2>
 
-        <div style={styles.cardWrap}>
+        <div style={styles.grid}>
           <div style={styles.feature}>📊 AI Chart Scanner</div>
           <div style={styles.feature}>🎯 Precise Trading</div>
           <div style={styles.feature}>⚡ Fast Execution</div>
@@ -115,46 +106,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* BOT ASSISTANT */}
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Bot Chat Assistant 🤖</h2>
-        <p style={styles.subtitle}>
-          Get instant help, setup guidance and answers directly inside the system — 24/7 support built in.
-        </p>
-      </section>
-
-      {/* ACCURACY */}
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>98% Accuracy ⚡</h2>
-        <p style={styles.subtitle}>
-          Designed for clean entries, smart direction detection and powerful automation.
-        </p>
+      {/* ACCURACY BLOCK */}
+      <section style={styles.accuracy}>
+        <h2>98% Accuracy ⚡</h2>
+        <p>Clean entries. Smart direction detection. Built for results.</p>
       </section>
 
       {/* RESULTS */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Real Results</h2>
+        <h2 style={styles.heading}>Real Results</h2>
 
         <div style={styles.gallery}>
-          {[1,2,3,4].map(i => (
-            <div style={styles.resultBox} key={i}>
-              Result {i}
-            </div>
+          {[1,2,3].map(i => (
+            <div key={i} style={styles.result}>Result {i}</div>
           ))}
         </div>
       </section>
 
       {/* WHATSAPP QUICK */}
-      <div style={styles.quickWrap}>
-        {[
-          "Recommended broker",
-          "Minimum deposit",
-          "Installation help",
-          "License info"
-        ].map(q => (
+      <div style={styles.quick}>
+        {["Broker", "Deposit", "Setup", "License"].map(q => (
           <a
             key={q}
-            href={`https://wa.me/27616260886?text=${encodeURIComponent(q)}`}
+            href={`https://wa.me/27616260886?text=${q}`}
             style={styles.quickBtn}
           >
             {q}
@@ -173,9 +147,8 @@ export default function Home() {
 
 const styles: any = {
   page: {
-    background: "#000",
+    background: "#050505",
     color: "white",
-    minHeight: "100vh",
     fontFamily: "Inter, sans-serif",
   },
 
@@ -188,7 +161,7 @@ const styles: any = {
     margin: "0 auto",
   },
 
-  left: { flex: 1, minWidth: "300px" },
+  left: { flex: 1 },
 
   right: {
     flex: 1,
@@ -198,7 +171,7 @@ const styles: any = {
   },
 
   image: {
-    width: "300px",
+    width: "320px",
     zIndex: 2,
   },
 
@@ -207,38 +180,37 @@ const styles: any = {
     width: "300px",
     height: "300px",
     background: "red",
-    filter: "blur(100px)",
+    filter: "blur(120px)",
   },
 
   tag: { color: "red", fontSize: "12px" },
 
   title: { fontSize: "48px", fontWeight: 900 },
 
-  red: { color: "red", textShadow: "0 0 20px red" },
+  red: { color: "red" },
 
   subtitle: { opacity: 0.7 },
 
-  timer: { fontSize: "28px", marginTop: "10px" },
-
-  urgent: { color: "red", marginBottom: "20px" },
+  timer: { fontSize: "24px", margin: "10px 0" },
 
   cta: {
-    background: "red",
-    padding: "15px",
-    borderRadius: "10px",
+    background: "linear-gradient(45deg, red, darkred)",
+    padding: "14px",
+    borderRadius: "12px",
     border: "none",
     color: "white",
     cursor: "pointer",
-    animation: "pulse 1.5s infinite",
+    boxShadow: "0 0 20px red",
   },
 
-  products: { textAlign: "center", marginTop: "60px" },
+  section: {
+    textAlign: "center",
+    marginTop: "80px",
+  },
 
-  section: { textAlign: "center", marginTop: "80px" },
+  heading: { fontSize: "32px" },
 
-  sectionTitle: { fontSize: "32px" },
-
-  cardWrap: {
+  grid: {
     display: "flex",
     justifyContent: "center",
     gap: "20px",
@@ -246,14 +218,15 @@ const styles: any = {
   },
 
   card: {
-    background: "#111",
-    padding: "20px",
-    borderRadius: "15px",
+    background: "rgba(255,255,255,0.05)",
+    padding: "25px",
+    borderRadius: "16px",
+    backdropFilter: "blur(10px)",
   },
 
   price: { fontSize: "22px", fontWeight: 800 },
 
-  buyBtn: {
+  buy: {
     display: "block",
     background: "red",
     padding: "10px",
@@ -268,15 +241,22 @@ const styles: any = {
     borderRadius: "10px",
   },
 
-  gallery: {
-    display: "flex",
-    gap: "10px",
-    justifyContent: "center",
+  accuracy: {
+    textAlign: "center",
+    marginTop: "80px",
+    fontSize: "22px",
+    color: "red",
   },
 
-  resultBox: {
-    width: "100px",
-    height: "100px",
+  gallery: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "10px",
+  },
+
+  result: {
+    width: "120px",
+    height: "120px",
     background: "#111",
     display: "flex",
     alignItems: "center",
@@ -285,21 +265,19 @@ const styles: any = {
 
   notification: {
     position: "fixed",
-    top: "10px",
+    top: "15px",
     left: "50%",
     transform: "translateX(-50%)",
     background: "#111",
     padding: "10px",
     borderRadius: "20px",
-    zIndex: 10,
   },
 
-  quickWrap: {
+  quick: {
     display: "flex",
     justifyContent: "center",
     gap: "10px",
     marginTop: "40px",
-    flexWrap: "wrap",
   },
 
   quickBtn: {
