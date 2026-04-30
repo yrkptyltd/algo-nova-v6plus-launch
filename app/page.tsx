@@ -1,7 +1,143 @@
 export default function Home() {
   return (
-    <div>
-      <h1>WORKING VERSION</h1>
-    </div>
+    <main style={styles.page}>
+
+      {/* HERO */}
+      <section style={styles.hero}>
+        <div style={styles.left}>
+          <h1 style={styles.title}>
+            ALGO NOVA EA <span style={styles.red}>v6+</span>
+          </h1>
+
+          <p style={styles.subtitle}>
+            Advanced automated trading system built for precision and consistency.
+          </p>
+
+          <p style={styles.stars}>★★★★★ Trusted by 3500+ traders</p>
+        </div>
+
+        <div style={styles.right}>
+          <img src="/nova.png" style={styles.image} />
+        </div>
+      </section>
+
+      {/* PRODUCTS */}
+      <section style={styles.section}>
+        <h2 style={styles.heading}>Choose Your Access</h2>
+
+        <div style={styles.grid}>
+
+          <div style={styles.card}>
+            <h3>Android</h3>
+            <p>R1500</p>
+            <p>1 Year License</p>
+            <p>AI Chart Scanner</p>
+            <a href="https://payf.st/hl78w" style={styles.button}>Buy</a>
+          </div>
+
+          <div style={styles.card}>
+            <h3>iOS</h3>
+            <p>R2000</p>
+            <p>1 Year License</p>
+            <p>AI Chart Scanner</p>
+            <a href="https://payf.st/2xmr6" style={styles.button}>Buy</a>
+          </div>
+
+          <div style={styles.card}>
+            <h3>PC Lifetime</h3>
+            <p>R3500</p>
+            <p>Lifetime Access</p>
+            <p>More Accurate</p>
+            <a href="https://payf.st/ex45h" style={styles.button}>Buy</a>
+          </div>
+
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={styles.footer}>
+        <p>All rights reserved since May 2025</p>
+        <p>Founder: _nhlanhla_za</p>
+      </footer>
+
+    </main>
   );
 }
+
+const styles = {
+  page: {
+    background: "#ffffff",
+    color: "#000",
+    padding: "40px",
+    fontFamily: "Arial",
+  },
+
+  hero: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  left: { flex: 1 },
+
+  right: { flex: 1, textAlign: "center" },
+
+  image: {
+    width: "200px",
+  },
+
+  title: {
+    fontSize: "36px",
+    fontWeight: "bold",
+  },
+
+  red: {
+    color: "red",
+  },
+
+  subtitle: {
+    opacity: 0.7,
+  },
+
+  stars: {
+    color: "gold",
+  },
+
+  section: {
+    marginTop: "60px",
+    textAlign: "center",
+  },
+
+  heading: {
+    fontSize: "24px",
+  },
+
+  grid: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    marginTop: "20px",
+  },
+
+  card: {
+    background: "#f5f5f5",
+    padding: "20px",
+    borderRadius: "10px",
+    width: "200px",
+  },
+
+  button: {
+    display: "block",
+    marginTop: "10px",
+    background: "red",
+    color: "white",
+    padding: "10px",
+    borderRadius: "6px",
+    textDecoration: "none",
+  },
+
+  footer: {
+    marginTop: "80px",
+    textAlign: "center",
+  },
+};
