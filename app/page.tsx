@@ -13,28 +13,28 @@ export default function Home() {
   }, []);
 
   const diff = Math.max(0, launchDate.getTime() - time.getTime());
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const hours = Math.floor(diff / 3600000);
+  const minutes = Math.floor((diff / 60000) % 60);
   const seconds = Math.floor((diff / 1000) % 60);
 
   return (
     <main style={styles.page}>
-      <div style={styles.container}>
+      <section style={styles.hero}>
         
         {/* LEFT SIDE */}
         <div style={styles.left}>
-          <p style={styles.tag}>PRIVATE LAUNCH</p>
+          <p style={styles.tag}>PRIVATE LAUNCH ACCESS</p>
 
           <h1 style={styles.title}>
-            ALGO NOVA <span style={{ color: "red" }}>V6+</span>
+            ALGO NOVA EA <span style={styles.highlight}>v6+</span>
           </h1>
 
           <p style={styles.subtitle}>
             The next evolution of automated trading. Built for dominance.
           </p>
 
-          <div style={styles.countdown}>
-            {hours}h {minutes}m {seconds}s
+          <div style={styles.timer}>
+            {hours}h : {minutes}m : {seconds}s
           </div>
 
           <div style={styles.form}>
@@ -50,59 +50,77 @@ export default function Home() {
 
         {/* RIGHT SIDE IMAGE */}
         <div style={styles.right}>
+          <div style={styles.imageGlow}></div>
           <img src="/nova.png" style={styles.image} />
         </div>
 
-      </div>
+      </section>
     </main>
   );
 }
 
 const styles: any = {
   page: {
-    background: "radial-gradient(circle at top, #1a0000, #000)",
     minHeight: "100vh",
+    background: "radial-gradient(circle at top, #1a0000, #000)",
     color: "white",
-    fontFamily: "Inter, sans-serif",
   },
 
-  container: {
+  hero: {
     display: "flex",
-    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-between",
     maxWidth: "1200px",
     margin: "0 auto",
-    padding: "60px 20px",
+    padding: "80px 20px",
+    flexWrap: "wrap",
   },
 
   left: {
     flex: 1,
-    minWidth: "300px",
+    minWidth: "320px",
   },
 
   right: {
     flex: 1,
     display: "flex",
     justifyContent: "center",
+    position: "relative",
     marginTop: "40px",
   },
 
   image: {
     width: "320px",
-    borderRadius: "20px",
-    boxShadow: "0 0 60px rgba(255,0,0,0.4)",
+    position: "relative",
+    zIndex: 2,
+  },
+
+  imageGlow: {
+    position: "absolute",
+    width: "350px",
+    height: "350px",
+    background: "radial-gradient(circle, rgba(255,0,0,0.4), transparent)",
+    borderRadius: "50%",
+    filter: "blur(40px)",
+    zIndex: 1,
   },
 
   tag: {
     color: "red",
     letterSpacing: "2px",
     fontSize: "12px",
+    marginBottom: "10px",
   },
 
   title: {
-    fontSize: "48px",
-    margin: "10px 0",
+    fontSize: "52px",
+    fontWeight: 800,
+    marginBottom: "10px",
+  },
+
+  highlight: {
+    color: "red",
+    textShadow: "0 0 20px red",
   },
 
   subtitle: {
@@ -110,33 +128,35 @@ const styles: any = {
     marginBottom: "20px",
   },
 
-  countdown: {
-    fontSize: "24px",
-    marginBottom: "20px",
+  timer: {
+    fontSize: "28px",
+    marginBottom: "30px",
+    fontWeight: "bold",
   },
 
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: "10px",
+    gap: "12px",
     maxWidth: "350px",
   },
 
   input: {
-    padding: "12px",
-    borderRadius: "8px",
+    padding: "14px",
+    borderRadius: "10px",
     border: "none",
     background: "#111",
     color: "white",
   },
 
   button: {
+    padding: "16px",
     background: "red",
-    padding: "14px",
-    borderRadius: "10px",
+    borderRadius: "12px",
     border: "none",
     color: "white",
     fontWeight: "bold",
     cursor: "pointer",
+    boxShadow: "0 0 20px red",
   },
 };
