@@ -1,105 +1,137 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState } from "react";
+
+const replies = [
+  {
+    keys: ["license", "how long"],
+    answer:
+      "Android & iOS versions come with a 1-year license. PC version is lifetime access.",
+  },
+  {
+    keys: ["android", "mobile"],
+    answer:
+      "Android includes AI chart scanner, flexible account types, and works best with 200% bonus accounts. Fully automated.",
+  },
+  {
+    keys: ["ios"],
+    answer:
+      "iOS has the same features as Android: AI chart scanner, flexible accounts, and optimized for 200% bonus accounts.",
+  },
+  {
+    keys: ["pc"],
+    answer:
+      "PC version is more accurate, includes chart scanner, works on all brokers, and is installed in under 5 minutes after payment.",
+  },
+  {
+    keys: ["install", "setup"],
+    answer:
+      "Installation is quick and simple — usually under 5 minutes after payment confirmation.",
+  },
+  {
+    keys: ["broker"],
+    answer:
+      "Recommended broker is Razor Markets for best performance and smooth withdrawals.",
+  },
+  {
+    keys: ["blow", "risk"],
+    answer:
+      "Trading is risky and no system is 100% guaranteed. Proper risk management is very important when using any robot.",
+  },
+];
 
 export default function Home() {
-  const sections = useRef<any[]>([]);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [chat, setChat] = useState([
+    {
+      from: "bot",
+      text: "Hi 👋 Ask anything about Algo Nova EA v6+",
+    },
+  ]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0px)";
-          }
-        });
-      },
-      { threshold: 0.2 }
+  function sendMessage(text?: string) {
+    const msg = text || message;
+    if (!msg.trim()) return;
+
+    const lower = msg.toLowerCase();
+
+    const found = replies.find((r) =>
+      r.keys.some((k) => lower.includes(k))
     );
 
-    sections.current.forEach((el) => el && observer.observe(el));
-  }, []);
+    const reply =
+      found?.answer ||
+      "Ask about license, features, broker, setup or risk. I'm here to help.";
+
+    setChat((prev) => [
+      ...prev,
+      { from: "user", text: msg },
+      { from: "bot", text: reply },
+    ]);
+
+    setMessage("");
+  }
 
   return (
     <main style={styles.page}>
 
-      {/* FLOAT ROBOT */}
-      <img src="/nova.png" style={styles.floatingRobot} />
-
       {/* HERO */}
       <section style={styles.hero}>
         <div style={styles.left}>
-          <p style={styles.update}>NEW UPDATE — v6+ LIVE</p>
-
           <h1 style={styles.title}>
             ALGO NOVA EA <span style={styles.red}>v6+</span>
           </h1>
 
           <p style={styles.subtitle}>
-            Precision automation built for serious traders.
+            Advanced automated trading built for precision and consistency.
           </p>
-
-          <p style={styles.stars}>★★★★★ Trusted by 3500+ traders</p>
-
-          <div style={styles.ctaRow}>
-            <a href="#access" style={styles.ctaPrimary}>
-              Get Access
-            </a>
-
-            <a href="https://wa.me/27616260886" style={styles.ctaSecondary}>
-              Live Support
-            </a>
-          </div>
         </div>
 
         <div style={styles.right}>
           <div style={styles.glow}></div>
-          <img src="/nova.png" style={styles.heroImage} />
+          <img src="/nova.png" style={styles.image} />
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section ref={(el) => (sections.current[0] = el)} style={styles.reveal}>
-        <h2 style={styles.heading}>Why Traders Choose v6+</h2>
+      {/* CHAT BOT */}
+      {chatOpen && (
+        <div style={styles.chatBox}>
+          <div style={styles.chatHeader}>
+            Algo Nova Support
+            <button onClick={() => setChatOpen(false)}>×</button>
+          </div>
 
-        <div style={styles.grid}>
-          <div style={styles.card}>📊 AI Chart Scanner</div>
-          <div style={styles.card}>🎯 Precision Entries</div>
-          <div style={styles.card}>⚡ Fast Execution</div>
-          <div style={styles.card}>🤖 Fully Automated</div>
+          <div style={styles.chatMessages}>
+            {chat.map((c, i) => (
+              <div key={i} style={c.from === "bot" ? styles.bot : styles.user}>
+                {c.text}
+              </div>
+            ))}
+          </div>
+
+          <div style={styles.quick}>
+            <button onClick={() => sendMessage("license")}>License</button>
+            <button onClick={() => sendMessage("android")}>Android</button>
+            <button onClick={() => sendMessage("pc")}>PC</button>
+            <button onClick={() => sendMessage("risk")}>Risk</button>
+          </div>
+
+          <div style={styles.chatInput}>
+            <input
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Ask something..."
+            />
+            <button onClick={() => sendMessage()}>Send</button>
+          </div>
         </div>
-      </section>
+      )}
 
-      {/* ACCESS */}
-      <section id="access" ref={(el) => (sections.current[1] = el)} style={styles.reveal}>
-        <h2 style={styles.heading}>Choose Your Access</h2>
-
-        <div style={styles.grid}>
-          <a href="https://payf.st/hl78w" style={styles.product}>
-            Android — R1500 / $250
-          </a>
-
-          <a href="https://payf.st/2xmr6" style={styles.product}>
-            iOS — R2000 / $300
-          </a>
-
-          <a href="https://payf.st/ex45h" style={styles.product}>
-            PC Lifetime — R3500 / $500
-          </a>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={styles.footer}>
-        <p>All rights reserved since May 2025</p>
-        <p>Founder: _nhlanhla_za</p>
-      </footer>
-
-      {/* CHAT */}
-      <a href="https://wa.me/27616260886" style={styles.chat}>
+      {/* CHAT BUTTON */}
+      <button onClick={() => setChatOpen(true)} style={styles.chatBtn}>
         Live Support 💬
-      </a>
+      </button>
 
     </main>
   );
@@ -107,114 +139,50 @@ export default function Home() {
 
 const styles: any = {
   page: {
-    background: "#ffffff",
+    background: "#fff",
     color: "#000",
-    fontFamily: "Inter, sans-serif",
+    fontFamily: "Inter",
+    minHeight: "100vh",
   },
 
   hero: {
     display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
     justifyContent: "space-between",
+    alignItems: "center",
+    padding: "80px 20px",
     maxWidth: "1100px",
     margin: "0 auto",
-    padding: "100px 20px",
   },
 
   left: { flex: 1 },
 
-  right: { flex: 1, textAlign: "center", position: "relative" },
+  right: { flex: 1, position: "relative", textAlign: "center" },
 
-  heroImage: {
+  image: {
     width: "260px",
-    borderRadius: "20px",
-    transition: "0.4s",
+    position: "relative",
+    zIndex: 2,
   },
 
   glow: {
     position: "absolute",
     width: "260px",
     height: "260px",
-    background: "red",
-    filter: "blur(70px)",
-  },
-
-  floatingRobot: {
-    position: "fixed",
+    background: "rgba(255,0,0,0.4)",
+    filter: "blur(60px)",
     top: "20px",
-    right: "20px",
-    width: "60px",
-    animation: "float 5s infinite",
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 1,
   },
 
-  title: {
-    fontSize: "44px",
-    fontWeight: 900,
-  },
+  title: { fontSize: "40px", fontWeight: 900 },
 
   red: { color: "red" },
 
   subtitle: { opacity: 0.7 },
 
-  stars: { color: "gold" },
-
-  update: { color: "red", fontWeight: "bold" },
-
-  ctaRow: {
-    display: "flex",
-    gap: "10px",
-    marginTop: "20px",
-  },
-
-  ctaPrimary: {
-    position: "relative",
-    overflow: "hidden",
-    background: "red",
-    color: "white",
-    padding: "12px",
-    borderRadius: "8px",
-    textDecoration: "none",
-  },
-
-  ctaSecondary: {
-    border: "1px solid red",
-    padding: "12px",
-    borderRadius: "8px",
-    color: "red",
-    textDecoration: "none",
-  },
-
-  grid: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-    flexWrap: "wrap",
-  },
-
-  card: {
-    background: "#fafafa",
-    padding: "18px",
-    borderRadius: "12px",
-    transition: "0.3s",
-  },
-
-  product: {
-    background: "red",
-    color: "white",
-    padding: "15px",
-    borderRadius: "10px",
-    textDecoration: "none",
-    transition: "0.3s",
-  },
-
-  footer: {
-    textAlign: "center",
-    marginTop: "80px",
-    padding: "20px",
-  },
-
-  chat: {
+  chatBtn: {
     position: "fixed",
     bottom: "20px",
     right: "20px",
@@ -222,14 +190,57 @@ const styles: any = {
     padding: "12px",
     borderRadius: "50px",
     color: "white",
-    boxShadow: "0 0 15px lime",
   },
 
-  reveal: {
-    opacity: 0,
-    transform: "translateY(40px)",
-    transition: "all 0.8s ease",
-    textAlign: "center",
-    marginTop: "80px",
+  chatBox: {
+    position: "fixed",
+    bottom: "80px",
+    right: "20px",
+    width: "300px",
+    background: "white",
+    borderRadius: "10px",
+    boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+  },
+
+  chatHeader: {
+    background: "red",
+    color: "white",
+    padding: "10px",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+
+  chatMessages: {
+    padding: "10px",
+    height: "200px",
+    overflow: "auto",
+  },
+
+  bot: {
+    background: "#eee",
+    padding: "8px",
+    marginBottom: "5px",
+    borderRadius: "6px",
+  },
+
+  user: {
+    background: "red",
+    color: "white",
+    padding: "8px",
+    marginBottom: "5px",
+    borderRadius: "6px",
+    textAlign: "right",
+  },
+
+  quick: {
+    display: "flex",
+    gap: "5px",
+    padding: "10px",
+  },
+
+  chatInput: {
+    display: "flex",
+    padding: "10px",
+    gap: "5px",
   },
 };
