@@ -5,219 +5,142 @@ import { useState } from "react";
 export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [userCount, setUserCount] = useState(0);
-
   const [chat, setChat] = useState([
-    {
-      from: "bot",
-      text: "Hi 👋 I’m Algo Nova Support. Ask me anything about v6+",
-    },
+    { from: "bot", text: "Hi 👋 Ask anything about Algo Nova EA v6+" },
   ]);
 
-  function getReply(msg: string) {
-    const text = msg.toLowerCase();
+  function smartReply(input: string) {
+    const msg = input.toLowerCase();
 
-    if (text.includes("license"))
-      return "Android & iOS = 1 year license. PC = lifetime.";
+    if (msg.includes("blow") || msg.includes("risk"))
+      return "Trading is risky. No robot is 100% accurate. Algo Nova is built for precision, but risk management is key.";
 
-    if (text.includes("android"))
-      return "Android includes AI chart scanner and works best with 200% bonus accounts.";
+    if (msg.includes("android"))
+      return "Android includes AI chart scanner, 1-year license, supports all brokers & pairs, and works best with 200% bonus accounts.";
 
-    if (text.includes("ios"))
-      return "iOS has the same features as Android including AI scanner.";
+    if (msg.includes("ios"))
+      return "iOS includes AI chart scanner, 1-year license, flexible account types, and supports all brokers.";
 
-    if (text.includes("pc"))
-      return "PC version is more accurate, works on all brokers, and installs in under 5 minutes.";
+    if (msg.includes("pc"))
+      return "PC version is lifetime, more accurate, includes chart scanner, works on all brokers, and installs in under 5 minutes.";
 
-    if (text.includes("broker"))
-      return "Recommended broker is Razor Markets.";
+    if (msg.includes("price"))
+      return "Android: R1500, iOS: R2000, PC Lifetime: R3500.";
 
-    if (text.includes("risk") || text.includes("blow"))
-      return "Trading is risky. No system is 100% guaranteed. Always manage risk.";
-
-    if (text.includes("price"))
-      return "Android R1500, iOS R2000, PC R3500 lifetime.";
-
-    return "Ask about license, setup, broker or pricing.";
+    return "Ask about features, pricing, setup or risk.";
   }
 
-  function sendMessage(text?: string) {
-    const msg = text || message;
-    if (!msg.trim()) return;
+  function sendMessage() {
+    if (!message) return;
 
-    const reply = getReply(msg);
+    const reply = smartReply(message);
 
-    const newCount = userCount + 1;
-
-    const updatedChat: any = [
-      ...chat,
-      { from: "user", text: msg },
+    setChat((prev) => [
+      ...prev,
+      { from: "user", text: message },
       { from: "bot", text: reply },
-    ];
+    ]);
 
-    // 🔥 AUTO SELL AFTER 2 MESSAGES
-    if (newCount >= 2) {
-      updatedChat.push({
-        from: "bot",
-        text: "🔥 Ready to secure your access?",
-      });
-      updatedChat.push({
-        from: "bot",
-        text: "Choose your version below 👇",
-      });
-    }
-
-    setChat(updatedChat);
-    setUserCount(newCount);
     setMessage("");
   }
 
   return (
     <main style={styles.page}>
-      
       {/* HERO */}
       <section style={styles.hero}>
-        <div style={styles.left}>
+        <div>
           <h1 style={styles.title}>
-            ALGO NOVA EA <span style={styles.red}>v6+</span>
+            ALGO NOVA EA <span style={{ color: "red" }}>v6+</span>
           </h1>
 
-          <p style={styles.subtitle}>
-            AI-powered automated trading system built for precision and consistency.
-          </p>
+          <p>AI-powered automated trading system.</p>
 
-          <p style={styles.stars}>★★★★★ Trusted by 3500+ traders</p>
+          <p style={{ color: "gold" }}>★★★★★ Trusted by 3500+ users</p>
         </div>
 
-        <div style={styles.right}>
-          <div style={styles.glow}></div>
-          <img src="/nova.png" style={styles.image} />
-        </div>
+        <img src="/nova.png" style={styles.image} />
       </section>
 
-      {/* BUY SECTION */}
+      {/* PRODUCTS */}
       <section style={styles.section}>
-        <h2 style={styles.heading}>Get Access</h2>
+        <h2>Choose Your Access</h2>
 
         <div style={styles.grid}>
-          <a href="https://payf.st/hl78w" style={styles.product}>
-            Android — R1500
-          </a>
+          <div style={styles.card}>
+            <h3>Android</h3>
+            <p>R1500</p>
+            <p>1 Year License</p>
+            <p>AI Chart Scanner</p>
+            <p>All Brokers & Pairs</p>
+            <a href="https://payf.st/hl78w">Buy Now</a>
+          </div>
 
-          <a href="https://payf.st/2xmr6" style={styles.product}>
-            iOS — R2000
-          </a>
+          <div style={styles.card}>
+            <h3>iOS</h3>
+            <p>R2000</p>
+            <p>1 Year License</p>
+            <p>AI Chart Scanner</p>
+            <p>Flexible Accounts</p>
+            <a href="https://payf.st/2xmr6">Buy Now</a>
+          </div>
 
-          <a href="https://payf.st/ex45h" style={styles.product}>
-            PC Lifetime — R3500
-          </a>
+          <div style={styles.card}>
+            <h3>PC Lifetime</h3>
+            <p>R3500</p>
+            <p>Lifetime Access</p>
+            <p>More Accurate</p>
+            <p>5 Min Setup</p>
+            <a href="https://payf.st/ex45h">Buy Now</a>
+          </div>
         </div>
       </section>
 
-      {/* CHAT BOT */}
+      {/* CHATBOT */}
       {chatOpen && (
         <div style={styles.chatBox}>
-          <div style={styles.chatHeader}>
-            Algo Nova Support
-            <button onClick={() => setChatOpen(false)}>×</button>
-          </div>
+          {chat.map((c, i) => (
+            <div key={i}>{c.text}</div>
+          ))}
 
-          <div style={styles.chatMessages}>
-            {chat.map((msg: any, i: number) => (
-              <div
-                key={i}
-                style={msg.from === "bot" ? styles.bot : styles.user}
-              >
-                {msg.text}
-              </div>
-            ))}
-          </div>
+          <input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
 
-          {/* BUY BUTTONS INSIDE CHAT */}
-          {userCount >= 2 && (
-            <div style={styles.buyRow}>
-              <a href="https://payf.st/hl78w">Android</a>
-              <a href="https://payf.st/2xmr6">iOS</a>
-              <a href="https://payf.st/ex45h">PC</a>
-            </div>
-          )}
-
-          <div style={styles.inputRow}>
-            <input
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Ask about v6+..."
-              onKeyDown={(e) => {
-                if (e.key === "Enter") sendMessage();
-              }}
-            />
-            <button onClick={() => sendMessage()}>Send</button>
-          </div>
+          <button onClick={sendMessage}>Send</button>
         </div>
       )}
 
-      {/* FLOAT BUTTON */}
       <button onClick={() => setChatOpen(true)} style={styles.chatBtn}>
         Live Support 💬
       </button>
-
     </main>
   );
 }
 
-const styles: any = {
-  page: {
-    background: "#fff",
-    color: "#000",
-    fontFamily: "Inter, sans-serif",
-  },
+const styles = {
+  page: { background: "#fff", padding: "20px" },
 
   hero: {
     display: "flex",
     justifyContent: "space-between",
-    padding: "80px 20px",
-    maxWidth: "1100px",
-    margin: "0 auto",
     alignItems: "center",
   },
 
-  left: { flex: 1 },
-  right: { flex: 1, position: "relative", textAlign: "center" },
+  image: { width: "200px" },
 
-  image: {
-    width: "260px",
-    position: "relative",
-    zIndex: 2,
+  section: { marginTop: "60px", textAlign: "center" },
+
+  grid: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
   },
 
-  glow: {
-    position: "absolute",
-    width: "260px",
-    height: "260px",
-    background: "rgba(255,0,0,0.3)",
-    filter: "blur(60px)",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: 1,
-  },
-
-  title: { fontSize: "40px", fontWeight: "bold" },
-  red: { color: "red" },
-  subtitle: { opacity: 0.7 },
-  stars: { color: "gold" },
-
-  section: { textAlign: "center", marginTop: "60px" },
-  heading: { fontSize: "26px" },
-
-  grid: { display: "flex", justifyContent: "center", gap: "15px" },
-
-  product: {
-    background: "red",
-    color: "white",
-    padding: "15px",
+  card: {
+    background: "#f5f5f5",
+    padding: "20px",
     borderRadius: "10px",
-    textDecoration: "none",
   },
 
   chatBtn: {
@@ -225,8 +148,7 @@ const styles: any = {
     bottom: "20px",
     right: "20px",
     background: "green",
-    padding: "12px",
-    borderRadius: "50px",
+    padding: "10px",
     color: "white",
   },
 
@@ -234,51 +156,7 @@ const styles: any = {
     position: "fixed",
     bottom: "80px",
     right: "20px",
-    width: "320px",
     background: "white",
-    borderRadius: "10px",
-    boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-  },
-
-  chatHeader: {
-    background: "red",
-    color: "white",
-    padding: "10px",
-    display: "flex",
-    justifyContent: "space-between",
-  },
-
-  chatMessages: {
-    padding: "10px",
-    height: "220px",
-    overflow: "auto",
-  },
-
-  bot: {
-    background: "#eee",
-    padding: "8px",
-    marginBottom: "5px",
-    borderRadius: "6px",
-  },
-
-  user: {
-    background: "red",
-    color: "white",
-    padding: "8px",
-    marginBottom: "5px",
-    borderRadius: "6px",
-    textAlign: "right",
-  },
-
-  inputRow: {
-    display: "flex",
-    padding: "10px",
-    gap: "5px",
-  },
-
-  buyRow: {
-    display: "flex",
-    justifyContent: "space-around",
     padding: "10px",
   },
 };
