@@ -37,7 +37,7 @@ export default function Home() {
           </h1>
 
           <p style={styles.subtitle}>
-            AI-powered automated trading built for precision and consistency.
+            Precision automation built for serious traders.
           </p>
 
           <p style={styles.stars}>★★★★★ Trusted by 3500+ traders</p>
@@ -60,10 +60,7 @@ export default function Home() {
       </section>
 
       {/* FEATURES */}
-      <section
-        ref={(el) => (sections.current[0] = el)}
-        style={styles.reveal}
-      >
+      <section ref={(el) => (sections.current[0] = el)} style={styles.reveal}>
         <h2 style={styles.heading}>Why Traders Choose v6+</h2>
 
         <div style={styles.grid}>
@@ -75,11 +72,7 @@ export default function Home() {
       </section>
 
       {/* ACCESS */}
-      <section
-        id="access"
-        ref={(el) => (sections.current[1] = el)}
-        style={styles.reveal}
-      >
+      <section id="access" ref={(el) => (sections.current[1] = el)} style={styles.reveal}>
         <h2 style={styles.heading}>Choose Your Access</h2>
 
         <div style={styles.grid}>
@@ -103,11 +96,8 @@ export default function Home() {
         <p>Founder: _nhlanhla_za</p>
       </footer>
 
-      {/* LIVE SUPPORT */}
-      <a
-        href="https://wa.me/27616260886"
-        style={styles.chat}
-      >
+      {/* CHAT */}
+      <a href="https://wa.me/27616260886" style={styles.chat}>
         Live Support 💬
       </a>
 
@@ -125,8 +115,8 @@ const styles: any = {
   hero: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
     maxWidth: "1100px",
     margin: "0 auto",
     padding: "100px 20px",
@@ -178,12 +168,13 @@ const styles: any = {
   },
 
   ctaPrimary: {
+    position: "relative",
+    overflow: "hidden",
     background: "red",
     color: "white",
     padding: "12px",
     borderRadius: "8px",
     textDecoration: "none",
-    transition: "0.3s",
   },
 
   ctaSecondary: {
